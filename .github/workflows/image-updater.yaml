@@ -6,6 +6,7 @@ on:
       - main
     paths-ignore:
       - 'solutions/node-manifests/deployment.yaml'
+      - '.current-image.yaml'
 
 jobs:
   update_file:
@@ -49,6 +50,9 @@ jobs:
           doc.spec.template.spec.containers[0].image = `mwinel/node-kubernetes-web:${latestTag}`; // replace with your new image
           let yamlStr = yaml.dump(doc);
           fs.writeFileSync(path, yamlStr, 'utf8');
+
+          // create a file in the root folder and store the current image tag in it
+          fs.writeFileSync('./.current-image.yaml', `mwinel/node-kubernetes-web:${latestTag}`, 'utf8');
 
           return yamlStr;
 
