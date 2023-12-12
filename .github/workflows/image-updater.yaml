@@ -61,5 +61,7 @@ jobs:
         git diff
         git config --global user.email "actions@github.com"
         git config --global user.name "GitHub Action"
-        git commit -am "Update file" || exit 0
+        git status
+        git add solutions/node-manifests/deployment.yaml .current-image.yaml # add specific files
+        git commit -am "Update image tag" || exit 0
         git push --force
