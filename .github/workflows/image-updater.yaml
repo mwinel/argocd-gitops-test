@@ -44,6 +44,7 @@ jobs:
           const response = await axios.get('https://registry.hub.docker.com/v2/repositories/mwinel/node-kubernetes-web/tags');
           const latestTag = response.data.results[0].name;
           console.log("Latest tag:", latestTag);
+          console.log("Current image:", doc.spec.template.spec.containers[0].image);
 
           // update the file content
           doc.spec.template.spec.containers[0].image = `mwinel/node-kubernetes-web:${latestTag}`; // replace with your new image
