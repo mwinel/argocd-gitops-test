@@ -3,13 +3,8 @@ name: Update deployment file
 on:
   repository_dispatch:
     types: [workflow-completed]
-  # push:
-  #   branches:
-  #     - main
-  #   paths-ignore:
-  #     - 'solutions/node-manifests/deployment.yaml'
-  #     - '.current-image.yaml'
-
+  workflow_dispatch:
+    
 jobs:
   update_file:
     runs-on: ubuntu-latest
