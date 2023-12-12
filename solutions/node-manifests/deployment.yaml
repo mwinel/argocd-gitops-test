@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: node-todos
+  name: node-todos
+  namespace: demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-todos
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: node-todos
+    spec:
+      containers:
+      - image: mwinel/node-kubernetes-web:v0.1.1
+        imagePullPolicy: IfNotPresent
+        name: node-todos
+        resources:
+          requests:
+            cpu: 50m
+            memory: 256Mi
+        env:
+        - name: NODE_ENV
+          value: "development"
+        - name: PORT
+          value: "3000"
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-credentials
+              key: user
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-credentials
+              key: password
+      restartPolicy: Always
